@@ -1,32 +1,61 @@
 class ProductList extends React.Component {
+  handleProductVoteUp(productId) {
+    console.log("bravo Rihab", productId);
+  }
   render() {
-    return (
+    const productComponents = Seed.products.map((product) => (
       <div className="ui unstackable items">
         <div></div>
-        <Product />
+        <Product
+          key={"product-" + product.id}
+          id={product.id}
+          title={product.title}
+          description={product.description}
+          url={product.url}
+          votes={product.votes}
+          submitterAvatarUrl={product.submitterAvatarUrl}
+          ProductImageUrl={product.submitterAvatarUrl}
+          onVote={this.handleProductVoteUp}
+        />
       </div>
-    );
+    ));
+    return <div className="ui unstackable items">{productComponents}</div>;
   }
 }
-
 class Product extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleUpVote = this.handleUpVote.bind(this);
+  }
+
+  // Inside `Product`
+  handleUpVote() {
+    this.props.onVote(this.props.id);
+  }
+
   render() {
     return (
       <div className="item">
         <div className="image">
-          <img src="images/products/image-aqua.png" />
+          <img src={this.props.ProductImageUrl} />
         </div>
-        <span className="card">
-          <span></span>
-        </span>
         <div className="middle aligned content">
+          <div className="header">
+            <a onClick={this.handleUpVote}>
+              <i className="large caret up icon " onClick={this.handleVoteUp} />
+            </a>
+            {this.props.votes}
+          </div>
           <div className="description">
-            <a>Fort Knight</a>
-            <p>Authentic renaissance actors, delivered in just two weeks.</p>
+            <a href={this.props.url}>{this.props.title}</a>
+            <p>{this.props.description}</p>
           </div>
           <div className="extra">
-            <span>Submittted some code by:</span>
-            <img className="ui avatar image" src="images/avatars/daniel.jpg" />
+            <img
+              className="ui avatar image"
+              src={this.props.submitterAvatarUrl}
+            />
           </div>
         </div>
       </div>
