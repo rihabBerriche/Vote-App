@@ -25,7 +25,7 @@ class Product extends React.Component {
             <p>Authentic renaissance actors, delivered in just two weeks.</p>
           </div>
           <div className="extra">
-            <span>Submitted by:</span>
+            <span>Submittted some code by:</span>
             <img className="ui avatar image" src="images/avatars/daniel.jpg" />
           </div>
         </div>
