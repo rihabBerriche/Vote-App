@@ -1,9 +1,27 @@
 class ProductList extends React.Component {
-  handleProductVoteUp(productId) {
-    console.log("bravo Rihab", productId);
+  state = {
+    products: [],
+  };
+  componentDidMount() {
+    this.setState({ products: Seed.products });
   }
+
+  handleProductUpVote = (productId) => {
+    const nextProducts = this.state.products.map((product) => {
+      if (product.id === productId) {
+        return Object.assign({}, product, {
+          votes: product.votes + 1,
+        });
+      } else {
+        return product;
+      }
+    });
+    this.setState({
+      products: nextProducts,
+    });
+  };
   render() {
-    const productComponents = Seed.products.map((product) => (
+    const productComponents = this.state.products.map((product) => (
       <div className="ui unstackable items">
         <div></div>
         <Product
@@ -15,7 +33,7 @@ class ProductList extends React.Component {
           votes={product.votes}
           submitterAvatarUrl={product.submitterAvatarUrl}
           ProductImageUrl={product.submitterAvatarUrl}
-          onVote={this.handleProductVoteUp}
+          onVote={this.handleProductUpVote}
         />
       </div>
     ));
@@ -23,16 +41,8 @@ class ProductList extends React.Component {
   }
 }
 class Product extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleUpVote = this.handleUpVote.bind(this);
-  }
-
   // Inside `Product`
-  handleUpVote() {
-    this.props.onVote(this.props.id);
-  }
+  handleUpVote = () => this.props.onVote(this.props.id);
 
   render() {
     return (
@@ -49,6 +59,7 @@ class Product extends React.Component {
           </div>
           <div className="description">
             <a href={this.props.url}>{this.props.title}</a>
+            <p>this is a new paragraph</p>
             <p>{this.props.description}</p>
           </div>
           <div className="extra">
